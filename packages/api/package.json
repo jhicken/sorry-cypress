@@ -49,6 +49,7 @@
     "graphql": "^14.5.4",
     "graphql-import": "^0.7.1",
     "graphql-iso-date": "^3.6.1",
-    "mongodb": "^3.3.2"
+    "mongodb": "^3.3.2",
+    "uuid": "^3.3.2"
   }
 }

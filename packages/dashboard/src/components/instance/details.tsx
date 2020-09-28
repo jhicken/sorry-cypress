@@ -25,7 +25,7 @@ export const InstanceDetails: React.FC<{ instance: Instance }> = ({
       <strong>Tests</strong>
       <div
         className={css`
-           {
+          {
             margin: 12px 0;
           }
         `}

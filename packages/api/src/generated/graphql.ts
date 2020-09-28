@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -55,6 +55,25 @@ export type FullRunSpec = {
   claimed: Scalars['Boolean'];
   claimedAt?: Maybe<Scalars['String']>;
   results?: Maybe<InstanceResults>;
+};
+
+export type Hook = {
+  __typename?: 'Hook';
+  hookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  headers?: Maybe<Scalars['String']>;
+  hookEvents?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hookType?: Maybe<Scalars['String']>;
+  githubToken?: Maybe<Scalars['String']>;
+};
+
+export type HookInput = {
+  hookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  headers?: Maybe<Scalars['String']>;
+  hookEvents?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hookType?: Maybe<Scalars['String']>;
+  githubToken?: Maybe<Scalars['String']>;
 };
 
 export type Instance = {
@@ -171,10 +190,12 @@ export type PartialRun = {
 export type Project = {
   __typename?: 'Project';
   projectId: Scalars['String'];
+  hooks?: Maybe<Array<Maybe<Hook>>>;
 };
 
 export type ProjectInput = {
   projectId: Scalars['String'];
+  hooks?: Maybe<Array<Maybe<HookInput>>>;
 };
 
 export type Query = {
@@ -347,6 +368,7 @@ export type ResolversTypes = {
   Filters: Filters;
   String: ResolverTypeWrapper<Scalars['String']>;
   Project: ResolverTypeWrapper<Project>;
+  Hook: ResolverTypeWrapper<Hook>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Run: ResolverTypeWrapper<Run>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -369,6 +391,7 @@ export type ResolversTypes = {
   DeleteRunResponse: ResolverTypeWrapper<DeleteRunResponse>;
   DeleteProjectResponse: ResolverTypeWrapper<DeleteProjectResponse>;
   ProjectInput: ProjectInput;
+  HookInput: HookInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -377,6 +400,7 @@ export type ResolversParentTypes = {
   Filters: Filters;
   String: Scalars['String'];
   Project: Project;
+  Hook: Hook;
   ID: Scalars['ID'];
   Run: Run;
   DateTime: Scalars['DateTime'];
@@ -399,6 +423,7 @@ export type ResolversParentTypes = {
   DeleteRunResponse: DeleteRunResponse;
   DeleteProjectResponse: DeleteProjectResponse;
   ProjectInput: ProjectInput;
+  HookInput: HookInput;
 };
 
 export type CommitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Commit'] = ResolversParentTypes['Commit']> = {
@@ -441,6 +466,16 @@ export type FullRunSpecResolvers<ContextType = any, ParentType extends Resolvers
   claimed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   claimedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   results?: Resolver<Maybe<ResolversTypes['InstanceResults']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type HookResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hook'] = ResolversParentTypes['Hook']> = {
+  hookId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  headers?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hookEvents?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  hookType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  githubToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -520,6 +555,7 @@ export type PartialRunResolvers<ContextType = any, ParentType extends ResolversP
 
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
   projectId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hooks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Hook']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -582,6 +618,7 @@ export type Resolvers<ContextType = any> = {
   DeleteProjectResponse?: DeleteProjectResponseResolvers<ContextType>;
   DeleteRunResponse?: DeleteRunResponseResolvers<ContextType>;
   FullRunSpec?: FullRunSpecResolvers<ContextType>;
+  Hook?: HookResolvers<ContextType>;
   Instance?: InstanceResolvers<ContextType>;
   InstanceResults?: InstanceResultsResolvers<ContextType>;
   InstanceScreeshot?: InstanceScreeshotResolvers<ContextType>;

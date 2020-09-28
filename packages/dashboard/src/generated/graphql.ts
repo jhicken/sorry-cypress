@@ -57,6 +57,25 @@ export type FullRunSpec = {
   results?: Maybe<InstanceResults>;
 };
 
+export type Hook = {
+   __typename?: 'Hook';
+  hookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  headers?: Maybe<Scalars['String']>;
+  hookEvents?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hookType?: Maybe<Scalars['String']>;
+  githubToken?: Maybe<Scalars['String']>;
+};
+
+export type HookInput = {
+  hookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  headers?: Maybe<Scalars['String']>;
+  hookEvents?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hookType?: Maybe<Scalars['String']>;
+  githubToken?: Maybe<Scalars['String']>;
+};
+
 export type Instance = {
    __typename?: 'Instance';
   runId: Scalars['ID'];
@@ -171,10 +190,12 @@ export type PartialRun = {
 export type Project = {
    __typename?: 'Project';
   projectId: Scalars['String'];
+  hooks?: Maybe<Array<Maybe<Hook>>>;
 };
 
 export type ProjectInput = {
   projectId: Scalars['String'];
+  hooks?: Maybe<Array<Maybe<HookInput>>>;
 };
 
 export type Query = {
@@ -274,6 +295,10 @@ export type CreateProjectMutation = (
   & { createProject: (
     { __typename?: 'Project' }
     & Pick<Project, 'projectId'>
+    & { hooks?: Maybe<Array<Maybe<(
+      { __typename?: 'Hook' }
+      & Pick<Hook, 'hookId' | 'url' | 'headers' | 'hookEvents' | 'hookType'>
+    )>>> }
   ) }
 );
 
@@ -353,6 +378,10 @@ export type GetProjectQuery = (
   & { project?: Maybe<(
     { __typename?: 'Project' }
     & Pick<Project, 'projectId'>
+    & { hooks?: Maybe<Array<Maybe<(
+      { __typename?: 'Hook' }
+      & Pick<Hook, 'hookId' | 'url' | 'headers' | 'hookEvents' | 'hookType'>
+    )>>> }
   )> }
 );
 
@@ -489,6 +518,10 @@ export type UpdateProjectMutation = (
   & { updateProject: (
     { __typename?: 'Project' }
     & Pick<Project, 'projectId'>
+    & { hooks?: Maybe<Array<Maybe<(
+      { __typename?: 'Hook' }
+      & Pick<Hook, 'hookId' | 'url' | 'headers' | 'hookEvents' | 'hookType'>
+    )>>> }
   ) }
 );
 
@@ -497,6 +530,13 @@ export const CreateProjectDocument = gql`
     mutation createProject($project: ProjectInput) {
   createProject(project: $project) {
     projectId
+    hooks {
+      hookId
+      url
+      headers
+      hookEvents
+      hookType
+    }
   }
 }
     `;
@@ -680,6 +720,13 @@ export const GetProjectDocument = gql`
     query getProject($projectId: ID!) {
   project(id: $projectId) {
     projectId
+    hooks {
+      hookId
+      url
+      headers
+      hookEvents
+      hookType
+    }
   }
 }
     `;
@@ -948,6 +995,13 @@ export const UpdateProjectDocument = gql`
     mutation updateProject($project: ProjectInput!) {
   updateProject(project: $project) {
     projectId
+    hooks {
+      hookId
+      url
+      headers
+      hookEvents
+      hookType
+    }
   }
 }
     `;
